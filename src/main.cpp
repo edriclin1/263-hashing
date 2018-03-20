@@ -4,6 +4,16 @@
 #include <string>
 #include <iostream>
 
+/**
+* Main method to read a csv file of Marvel superheros into
+* Superhero objects and put them into a hashmap.
+* 
+* @author Edric Lin
+* @author Hai Duong
+* @author Trungvuong Pham
+* @version 3/20/2018
+*/
+
 int main(int argc, char** argv) {
 
     // if not 2 arguments, error

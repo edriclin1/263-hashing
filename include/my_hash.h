@@ -15,61 +15,90 @@ public:
     * Default constructor for My_hash object. 
     */
     My_hash() {
-        superheroList.reserve(17011);
+        superheroList.reserve(SIZE);
     }
 
-unsigned int hash(const std::string& key, int tableSize){
-    int hashVal = 0;
+    unsigned int hash(const std::string& key) {
+        int hashVal = 0;
  
-    for(char ch:key){
-        hashVal += ch;
+        for(char ch:key){
+            hashVal += ch;
+        }
+
+        return hashVal % SIZE;
     }
-    return hashVal % tableSize;
-}
 
-unsigned int hash2( const std::string& key, int tableSize ){
-        return (key[ 0 ] + 27 * key[ 1 ] + 729 * key[ 2 ]) % tableSize;
-}
+    unsigned int hash1(const std::string& key) {
+        return (key[ 0 ] + 27 * key[ 1 ] + 729 * key[ 2 ]) % SIZE;
+    }
 
-unsigned int hash3(const std::string& key, int tableSize){
-    unsigned int hashVal = 0;
+    unsigned int hash2(const std::string& key) {
+        unsigned int hashVal = 0;
  
-    for (char ch:key ){
-        hashVal = 37 * hashVal + ch;
-    }
+        for (char ch:key ){
+            hashVal = 37 * hashVal + ch;
+        }
  
-    return hashVal % tableSize;
-}
-
-bool insert(const Superhero& s, unsigned int (*hash)(const std::string &, int)) {
-
-    // get superhero name
-    std::string name = s.get_name();
-
-    // get index from hashing function
-    int index = (int) hash(name, 17011);
-
-    // increase capacity of vector by 1
-    int capacity = (int) superheroList[index].capacity() + 1;
-    (superheroList[index]).reserve(capacity);
-
-    // insert into beginning of vector
-    it = superheroList[index].begin();      // http://www.cplusplus.com/reference/vector/vector/insert/
-    (superheroList[index]).insert (it , s);
-
-    // check if collision (i.e. capacity is greater than 1)
-    if (capacity > 1) {
-        return true;
+        return hashVal % SIZE;
     }
-    return false;
-}
 
-Superhero& get(const std::string name, std::function<double (double,double)> func)) {
+    bool insert(const Superhero & s, int func_num) {
 
-}
+        // get superhero name
+        std::string name = s.getName();
+
+        int index = 0;
+
+        // get index from hashing functions
+        if (func_num == 0) {
+            index = hash(name);
+        }
+
+        if (func_num == 1) {
+            index = hash1(name);
+        }
+
+        if (func_num == 2) {
+            index = hash2(name);
+        }
+
+        // increase capacity (may not need)
+        superheroList[index].reserve(superheroList[index].capacity() + 1);
+
+        // insert superheros at in list corresponding to hash
+        superheroList[index].insert(superheroList[index].begin(), s);
+
+        // check if collision (i.e. capacity is greater than 1)
+        return (superheroList[index].size() > 1);
+    }
+
+    Superhero& get(const std::string name, int func_num) {
+
+        int index = 0;
+
+        // get index from hashing functions
+        if (func_num == 0) {
+            index = hash(name);
+        }
+
+        if (func_num == 1) {
+            index = hash1(name);
+        }
+
+        if (func_num == 2) {
+            index = hash2(name);
+        }
+
+        // return first item at vector index
+        return superheroList[index][0];
+    }
     
 private:
 
-    /** vector of size  */
+    /** vectors of vectors for superheros hashing functions */
     std::vector< std::vector<Superhero>>  superheroList;
+
+    /** size of the hashmap */
+    const int SIZE = 17011;
+
 };

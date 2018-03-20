@@ -37,27 +37,26 @@ int main(int argc, char** argv) {
     std::string sex;
     std::string gsm;
     std::string alive;
-    int appearances;
+    std::string appearances;
     std::string first_appearance;
-    int year;
+    std::string year;
 
     while(in.read_row(page_id, name, urlslug, id, alignment, eye_color, hair_color, sex, gsm, alive, appearances, first_appearance, year)){
 
-        // convert char traits from string
-        char eye_conv = eye_color.at(0);
-        char hair_conv = hair_color.at(0);
-        char sex_conv = sex.at(0);
-
-        // convert bool trait from string (living if starts with L)
-        bool alive_conv = (alive.at(0) == 'L');
+        char eye_conv = (eye_color.empty()) ? '_' : eye_color.at(0);
+        char hair_conv = (hair_color.empty()) ? '_' : hair_color.at(0);
+        char sex_conv = (sex.empty()) ? '_' : sex.at(0);
+        bool alive_conv = (!alive.empty() && alive.at(0) == 'D') ? false : true;
+        int appearances_conv = (appearances.empty()) ? '_' : stoi(appearances);
+        int year_conv = (year.empty()) ? '_' : stoi(year);
 
         // create new superhero object
-        Superhero* temp = new Superhero(page_id, name, urlslug, id, alignment, eye_conv, hair_conv, sex_conv, gsm, alive_conv, appearances, first_appearance, year);
+        Superhero* temp = new Superhero(page_id, name, urlslug, id, alignment, eye_conv, hair_conv, sex_conv, gsm, alive_conv, appearances_conv, first_appearance, year_conv);
 
         if (my_hash -> insert(*temp, std::stoi(argv[1]))) {
             collisions++;
         }
     }
-    std::cout << "Number of collisions: " << collisions << std::endl;
+    std::cout << "Number of collisions in function [" << argv[1] << "]: " << collisions << std::endl;
 }
 

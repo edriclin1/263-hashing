@@ -18,7 +18,7 @@ public:
         superheroList.reserve(SIZE);
     }
 
-    unsigned int hash(const std::string& key) {
+    int hash(const std::string& key) {
         int hashVal = 0;
  
         for(char ch:key){
@@ -28,7 +28,7 @@ public:
         return hashVal % SIZE;
     }
 
-    unsigned int hash1(const std::string& key) {
+    int hash1(const std::string& key) {
         return (key[ 0 ] + 27 * key[ 1 ] + 729 * key[ 2 ]) % SIZE;
     }
 

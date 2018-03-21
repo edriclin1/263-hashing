@@ -36,7 +36,7 @@ public:
 
     /******************************************************
     * First hashing method counts all the chars of key 
-    * and adds them. Then returns the modded size
+    * and adds them. Then returns the sum modded by SIZE.
     *
     * @param key the key to hash
     * @return the hashmap index
@@ -57,8 +57,9 @@ public:
 
 
     /*******************************************************
-    * Second hashing method takes the three first key index
-    * to sum them together to later divide by the SIZE
+    * Second hashing method takes the values based on
+    * first three chars of key summed them together
+    * and modded by SIZE.
     *
     * @param key the key to hash
     * @return the hashmap index
@@ -68,9 +69,9 @@ public:
     }
 
     /******************************************************
-    * Third hashing method takes an unsidned int then goes
-    * through each key and multiple by 37 then add the char
-    * value. Finally returning the modded size
+    * Third hashing method takes an unsigned int then goes
+    * through each key and multiplies by 37 then add the char
+    * value. The sum is modded by SIZE.
     *
     * @param key the key to hash
     * @return the hashmap index

@@ -1,7 +1,14 @@
-#include "superhero.h"
-#include <vector>
+#ifndef MY_HASH_H
+#define MY_HASH_H
 
-/**
+#define SIZE 17011
+
+#include "superhero.h"
+
+#include <vector>
+#include <iostream>
+
+/**********************************************************
 * Class for a My_hash object. Contains a vector of vectors
 * that holds superhero objects.
 * 
@@ -9,70 +16,87 @@
 * @author Hai Duong
 * @author Trungvuong Pham
 * @version 3/20/2018
-*/
+***********************************************************/
 
 class My_hash {
 public:
     
-    /**
+    /*******************************************************
     * Default constructor for My_hash object. 
     * Sets the capacity of vectors.
-    */
+    *******************************************************/
     My_hash() {
         superheroList.reserve(SIZE);
     }
 
-    /**
-    * First hashing method. 
+    /******************************************************
+    * Deconstructor detroys the data structure
+    * ****************************************************/	
+    ~My_hash() {}
+
+    /******************************************************
+    * First hashing method counts all the chars of key 
+    * and adds them. Then returns the modded size
     *
     * @param key the key to hash
     * @return the hashmap index
-    */
+    *******************************************************/
     int hash(const std::string& key) {
-        int hashVal = 0;
+        
+	//storage for the summed chars count
+	int hashVal = 0;
  
+	//loops through key then sums into hashVal
         for(char ch:key){
             hashVal += ch;
         }
-
+	
+	//returns the modded size of the list
         return hashVal % SIZE;
     }
 
 
-    /**
-    * Second hashing method. 
+    /*******************************************************
+    * Second hashing method takes the three first key index
+    * to sum them together to later divide by the SIZE
     *
     * @param key the key to hash
     * @return the hashmap index
-    */
+    *******************************************************/
     int hash1(const std::string& key) {
         return (key[ 0 ] + 27 * key[ 1 ] + 729 * key[ 2 ]) % SIZE;
     }
 
-    /**
-    * Third hashing method. 
+    /******************************************************
+    * Third hashing method takes an unsidned int then goes
+    * through each key and multiple by 37 then add the char
+    * value. Finally returning the modded size
     *
     * @param key the key to hash
     * @return the hashmap index
-    */
+    *******************************************************/
     unsigned int hash2(const std::string& key) {
-        unsigned int hashVal = 0;
- 
+        
+	//storage for the summed chars count
+	unsigned int hashVal = 0;
+ 	
+	//loops through key to add to the hashVal
         for (char ch:key ){
             hashVal = 37 * hashVal + ch;
         }
- 
+ 	
+	//returned the unsigned size
         return hashVal % SIZE;
     }
 
-    /**
+    /******************************************************
     * Method to insert a Superhero object into the 
     * vector of vectors using one of the hashing functions.
     *
     * @param s the superhero to return
     * @param func_num the function number to use (0-2)
     * @return whether there was a collision
-    */
+    *******************************************************/
     bool insert(const Superhero & s, int func_num) {
 
         // get superhero name
@@ -103,14 +127,14 @@ public:
         return (superheroList[index].size() > 1);
     }
 
-    /**
+    /******************************************************
     * Method to retrieve a superhero from the hashmap using 
     * a specific hashing function.
     *
     * @param name the superhero name to hash and retrieve
     * @param func_num the function number to use (0-2)
     * @return the superhero object
-    */
+    ******************************************************/
     Superhero& get(const std::string name, int func_num) {
 
         int index = 0;
@@ -137,7 +161,6 @@ private:
     /** vectors of vectors for superheros hashing functions */
     std::vector< std::vector<Superhero>>  superheroList;
 
-    /** size of the hashmap */
-    const int SIZE = 17011;
-
 };
+
+#endif
